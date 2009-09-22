@@ -22,21 +22,15 @@ from sample.models import Sample
 import os
 import logging
 from google.appengine.ext.webapp import template
-
-class CustomHandler(webapp.RequestHandler):
-  def get(self,template_values,template_name = None):
-    if template_name == None:
-      template_name = 'view/' + str(self.__class__.__name__)  + '.html'
-    path = os.path.join(os.path.dirname(__file__), template_name)
-    self.response.out.write(template.render(path, template_values)) 
+from helper.CustomHandler import CustomHandler
 
 class index(CustomHandler):
   def get(self):
     for (k,v) in self.request.GET.iteritems():
       logging.debug(k+","+str(v))
     
-    template_values = {'samples':Sample.all()}
-    CustomHandler.get(self, template_values)
+    template_values = {'samples':Sample.all().filter("user = ", users.get_current_user())}
+    CustomHandler.get(self, os.path.dirname(__file__), template_values)
 
     
 class new(webapp.RequestHandler):

@@ -27,29 +27,22 @@ from google.appengine.ext.webapp import template
 import xml.dom.minidom
 from django.utils import simplejson
 from helper.glineenc import encode_locations
+from helper.CustomHandler import CustomHandler
 
 import datetime
 
-class CustomHandler(webapp.RequestHandler):
-  def get(self,template_values,template_name = None):
-    if template_name == None:
-      template_name = 'view/' + str(self.__class__.__name__)  + '.html'
-    path = os.path.join(os.path.dirname(__file__), template_name)
-    self.response.out.write(template.render(path, template_values)) 
+
 
 class index(CustomHandler):
   def get(self):
     for (k,v) in self.request.GET.iteritems():
       logging.debug(k+","+str(v))
     
-    amount = int(self.request.GET['amount'])
-    offset = int(self.request.GET['offset'])
-    
-    locations = Location.all().order('timestamp').fetch(amount,offset)
+    locations = Location.all().order('timestamp').filter('user =', users.get_current_user()).fetch(1000)
     
     
     template_values = {'locations':locations, 'encoded':encode_locations(locations)}
-    CustomHandler.get(self, template_values)
+    CustomHandler.get(self, os.path.dirname(__file__), template_values)
 
     
 class new(webapp.RequestHandler):

@@ -11,6 +11,8 @@ class MyModel(db.Model):
         v = db.GeoPt(v[0],v[1])
       elif k == "file":
         v = db.Blob(v.file.read())
+      elif k == "timestamp":
+        v = float(v)
       setattr(self, k, v)
 
 class Sample(MyModel):
@@ -19,3 +21,4 @@ class Sample(MyModel):
   file = db.BlobProperty()
   location = db.GeoPtProperty()
   user = db.UserProperty()
+  timestamp = db.DateTimeProperty()

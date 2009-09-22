@@ -1,4 +1,11 @@
-Samples:
-{% for sample in samples %}
- {{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> <br>
-{% endfor %}
+{% extends "../../view/index.html" %}
+
+    {% block title %}Samples{% endblock %}
+
+
+	{% block content %}
+		<h2>Your Samples: </h2>
+    	{% for sample in samples %}
+ 			{{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> <br>
+		{% endfor %}
+	{% endblock %}
