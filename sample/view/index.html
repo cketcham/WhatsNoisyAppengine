@@ -1,0 +1,4 @@
+Samples:
+{% for sample in samples %}
+ {{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> <br>
+{% endfor %}
