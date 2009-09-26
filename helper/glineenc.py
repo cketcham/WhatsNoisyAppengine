@@ -35,6 +35,8 @@ def encode_pairs(points):
         ('_p~iF~ps|U_c_\\\\fhde@~lqNwxq`@', 'BBB')
 
     """
+    if points == []:
+      return None
     encoded_points = []
     encoded_levels = []
     

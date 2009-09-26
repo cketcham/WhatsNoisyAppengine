@@ -1,4 +1,4 @@
-application: whatsnoisy
+application: cketcham
 version: 1
 runtime: python
 api_version: 1
@@ -7,6 +7,9 @@ handlers:
 
 - url: /sample.*
   script: /sample/sample.py
+  
+- url: /locationtrace.*
+  script: /locationtrace/locationtrace.py
   
 - url: /location.*
   script: /location/location.py
