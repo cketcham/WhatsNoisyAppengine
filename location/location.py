@@ -38,8 +38,9 @@ class index(CustomHandler):
     for (k,v) in self.request.GET.iteritems():
       logging.debug(k+","+str(v))
     
-    locations = Location.all().order('timestamp').filter('user =', users.get_current_user()).fetch(1000)
+    locations = Location.all().order('timestamp').filter('user =', users.get_current_user()).fetch(int(self.request.get('amount')),int(self.request.get('offset')))
     
+    logging.debug(encode_locations(locations))
     
     template_values = {'locations':locations, 'encoded':encode_locations(locations)}
     CustomHandler.get(self, os.path.dirname(__file__), template_values)

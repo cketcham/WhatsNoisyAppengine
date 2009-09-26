@@ -11,4 +11,7 @@ class MyModel(db.Model):
         v = db.Blob(v.file.read())
       elif k == "timestamp":
         v = float(v)
-      setattr(self, k, v)
+      try:
+        setattr(self, k, v)
+      except:
+        setattr(self, k, int(v))

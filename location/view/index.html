@@ -22,12 +22,14 @@
       		zoomFactor: 32,
       		numLevels: 4
     	});
-   		map.addOverlay(encodedPolyline);
+   		
 
-    		map.setCenter(encodedPolyline.getBounds().getCenter(), map.getBoundsZoomLevel(encodedPolyline.getBounds()));
-   		{% else %}
-   			map.setCenter(new GLatLng(34.04037,-118.285217),12);
+   			map.setCenter(encodedPolyline.getBounds().getCenter(),12);
+   			map.addOverlay(encodedPolyline);
+   			
    		{% endif %}
+
+   		
 
 
       }

@@ -56,6 +56,7 @@ def encode_pairs(points):
         encoded_levels.append(encoded_level)
 
     encoded_points_str = ''.join(encoded_points)
+    encoded_points_str = encoded_points_str.replace("\\","\\\\")
     encoded_levels_str = ''.join([str(l) for l in encoded_levels])
     return encoded_points_str, encoded_levels_str
 

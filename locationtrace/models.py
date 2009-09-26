@@ -5,8 +5,8 @@ import logging
 
 class LocationTrace(MyModel):
   timestamp = db.DateTimeProperty()
-  encodedPoints = db.StringProperty()
-  encodedLevels = db.StringProperty()
+  encodedPoints = db.TextProperty()
+  encodedLevels = db.TextProperty()
   zoomFactor = db.IntegerProperty()
   numLevels = db.IntegerProperty()
   user = db.UserProperty()
