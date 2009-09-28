@@ -38,7 +38,7 @@ class index(CustomHandler):
     for (k,v) in self.request.GET.iteritems():
       logging.debug(k+","+str(v))
     
-    locations = Location.all().order('timestamp').filter('user =', users.get_current_user()).fetch(int(self.request.get('amount')),int(self.request.get('offset')))
+    locations = Location.all().order('timestamp').filter('user =', users.get_current_user()).fetch(100)
     
     logging.debug(encode_locations(locations))
     

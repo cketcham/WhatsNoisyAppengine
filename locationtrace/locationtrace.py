@@ -34,8 +34,8 @@ class index(CustomHandler):
     for (k,v) in self.request.GET.iteritems():
       logging.debug(k+","+str(v))
     
-    #locations = LocationTrace.all().order('timestamp').filter('user =', users.get_current_user()).fetch(1000)
-    locations = LocationTrace.all().fetch(1000)
+    locations = LocationTrace.all().order('timestamp').filter('user =', users.get_current_user()).fetch(1000)
+    #locations = LocationTrace.all().fetch(1000)
     
     template_values = {'locations':locations}
     CustomHandler.get(self, os.path.dirname(__file__), template_values)
