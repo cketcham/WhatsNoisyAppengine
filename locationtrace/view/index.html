@@ -12,6 +12,8 @@
       if (GBrowserIsCompatible()) {
         var map = new GMap2(document.getElementById("map_canvas"));
         map.setUIToDefault();
+
+	var encodedPolyline = null;
         
         {% for location in locations %}
         var encodedPolyline = new GPolyline.fromEncoded({
@@ -25,11 +27,12 @@
     	map.addOverlay(encodedPolyline);
     	
     	{% endfor %}
-    	{% if locations %}
+    	
+	if(encodedPolyline != null) {
     		map.setCenter(encodedPolyline.getBounds().getCenter(), map.getBoundsZoomLevel(encodedPolyline.getBounds()));
-   		{% else %}
-   			map.setCenter(new GLatLng(34.04037,-118.285217),12);
-   		{% endif %}
+	} else {
+   		map.setCenter(new GLatLng(34.04037,-118.285217),12);
+	}
 
 
       }

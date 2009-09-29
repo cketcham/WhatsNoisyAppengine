@@ -28,8 +28,17 @@ class index(CustomHandler):
   def get(self):
     for (k,v) in self.request.GET.iteritems():
       logging.debug(k+","+str(v))
-    
-    template_values = {'samples':Sample.all().filter("user = ", users.get_current_user())}
+
+    user = users.get_current_user()
+
+    #display all the samples if the user isn't logged in or is admin
+    if not user or user.is_current_user_admin():
+      samples = Sample.all()
+    else:
+      samples = Sample.all().filter("user = ", user)
+        
+
+    template_values = {'samples':samples}
     CustomHandler.get(self, os.path.dirname(__file__), template_values)
 
     

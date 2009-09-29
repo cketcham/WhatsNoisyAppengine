@@ -8,15 +8,21 @@
     <script type="text/javascript">
 	  {% block javascript %}{% endblock %}
     </script>
+	<style type="text/css">
+
+	li { display: inline; }
+
+	</style>
+
   </head>
   <body onload="initialize()" onunload="GUnload()">
     <div id="sidebar">
       {% block sidebar %}
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/sample">Samples</a></li>
-        <li><a href="/location">Locations</a></li>
+        <li><a href="/">Home</a> |</li>
+        <li><a href="/sample">Samples</a> |</li>
+        <li><a href="/location">Locations</a> |</li>
+	<li><a href="/locationtrace">Location Traces</a> |</li>
         <li><a href="{{login_url}}">{{login_text}}</a></li>
       </ul>
       {% endblock %}

@@ -38,9 +38,13 @@ class index(CustomHandler):
     for (k,v) in self.request.GET.iteritems():
       logging.debug(k+","+str(v))
     
-    locations = Location.all().order('timestamp').filter('user =', users.get_current_user()).fetch(100)
-    
-    logging.debug(encode_locations(locations))
+    user = users.get_current_user()
+
+    #display all the traces if user is admin
+    if users.is_current_user_admin():
+      locations = Location.all()
+    else:
+      locations = Location.all().order('timestamp').filter("user = ", user)
     
     template_values = {'locations':locations, 'encoded':encode_locations(locations)}
     CustomHandler.get(self, os.path.dirname(__file__), template_values)
