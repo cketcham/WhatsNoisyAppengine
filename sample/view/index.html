@@ -2,10 +2,33 @@
 
     {% block title %}Samples{% endblock %}
 
+    {% block css %}
+	.left {float: left; min-width: 300px; }
+	#left li { display:block; margin-left:-40px; padding:5px;  }
+	.cool ul { min-height:100px; background-color:#b0c4de; }
+	.noisy ul { min-height:100px; background-color:#de6d6d; }
+	#right {}
+    {% endblock %}
 
 	{% block content %}
 		<h2>Your Samples: </h2>
-    	{% for sample in samples %}
- 			{{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> <br>
-		{% endfor %}
+	<div class="left"> 
+		<div class="cool">
+	     	   Cool:
+	     	   <ul>
+	    		{% for sample in cool %}
+	 			<li>{{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> </li>
+			{% endfor %}
+		   </ul>
+		</div>
+		<div class="noisy">
+	     	   Noisy:
+	     	   <ul>
+	    		{% for sample in noisy %}
+	 			<li>{{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> </li>
+			{% endfor %}
+		   </ul>
+		</div>
+	</div>
+	<div id="right"> right </div>
 	{% endblock %}

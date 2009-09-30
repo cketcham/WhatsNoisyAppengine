@@ -12,12 +12,12 @@ class CustomHandler(webapp.RequestHandler):
     user = users.get_current_user()
 
     if user:
-      login_text = 'Logout'
+      login_text = 'Sign Out'
       login_url = users.create_logout_url(self.request.uri)
     else:
-      login_text = 'Login'
+      login_text = 'Sign In'
       login_url = users.create_login_url(self.request.uri)
 
-    template_values.update({'login_url':login_url ,'login_text':login_text })
+    template_values.update({'login_url':login_url ,'login_text':login_text, 'user':user })
     path = os.path.join(file, template_name)
     self.response.out.write(template.render(path, template_values)) 

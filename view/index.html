@@ -8,17 +8,22 @@
     <script type="text/javascript">
 	  {% block javascript %}{% endblock %}
     </script>
-	<style type="text/css">
-
+    <style type="text/css">
 	li { display: inline; }
+	#title { float:left; }
+ 	{% block css %}{% endblock %}
 
-	</style>
+    </style>
 
   </head>
   <body onload="initialize()" onunload="GUnload()">
-    <div id="sidebar">
+    <div id="title">
+      WhatsNoisy!</h2>
+    </div>
+    <div align=right id="sidebar" style="font-size:84%;padding:0 0 4px" width=100%>
       {% block sidebar %}
       <ul>
+	<li>{{user.email}}</li>
         <li><a href="/">Home</a> |</li>
         <li><a href="/sample">Samples</a> |</li>
         <li><a href="/location">Locations</a> |</li>
