@@ -33,11 +33,11 @@ class index(CustomHandler):
 
     #display all the samples if the user isn't logged in or is admin
     if not user or users.is_current_user_admin():
-      cool = Sample.all().filter("type = ", "cool").fetch(10)
-      noisy = Sample.all().filter("type = ", "noisy").fetch(10)
+      cool = Sample.all().filter("type = ", "Cool").fetch(10)
+      noisy = Sample.all().filter("type = ", "Noisy").fetch(10)
     else:
-      cool = Sample.all().filter("user = ", user).filter("type = ", "cool").fetch(10)
-      noisy = Sample.all().filter("user = ", user).filter("type = ", "noisy").fetch(10)
+      cool = Sample.all().filter("user = ", user).filter("type = ", "Cool").fetch(10)
+      noisy = Sample.all().filter("user = ", user).filter("type = ", "Noisy").fetch(10)
         
 
     template_values = {'cool':cool, 'noisy':noisy}

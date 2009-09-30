@@ -4,7 +4,7 @@
 
     {% block css %}
 	.left {float: left; min-width: 300px; }
-	#left li { display:block; margin-left:-40px; padding:5px;  }
+	.left li { display:block; margin-left:-40px; padding:5px;  }
 	.cool ul { min-height:100px; background-color:#b0c4de; }
 	.noisy ul { min-height:100px; background-color:#de6d6d; }
 	#right {}
@@ -17,7 +17,7 @@
 	     	   Cool:
 	     	   <ul>
 	    		{% for sample in cool %}
-	 			<li>{{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> </li>
+	 			<li>{{sample.title}} <a href="/sample/data/{{sample.key}}">audio</a> </li>
 			{% endfor %}
 		   </ul>
 		</div>
@@ -25,7 +25,7 @@
 	     	   Noisy:
 	     	   <ul>
 	    		{% for sample in noisy %}
-	 			<li>{{sample.title}} {{sample.type}} <a href="/sample/data/{{sample.key}}">audio</a> </li>
+	 			<li>{{sample.title}}  <a href="/sample/data/{{sample.key}}">audio</a> </li>
 			{% endfor %}
 		   </ul>
 		</div>
