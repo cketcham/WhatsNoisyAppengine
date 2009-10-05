@@ -5,7 +5,7 @@ import logging
 from google.appengine.ext.webapp import template
 
 class CustomHandler(webapp.RequestHandler):
-  def get(self,file,template_values,template_name = None):
+  def get(self,file,template_values = {},template_name = None):
     if template_name == None:
       template_name = 'view/' + str(self.__class__.__name__)  + '.html'
       

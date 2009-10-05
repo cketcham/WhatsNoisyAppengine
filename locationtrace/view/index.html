@@ -41,5 +41,9 @@
 
 	{% block content %}
 	<h2>Your Location Trace: </h2>
-    <div id="map_canvas" style="width:100%; height:90%"></div>
+	  {% ifequal login_text "Sign In" %}
+      	When you are logged in you will be able to see your Routes
+      {% else %}
+    	<div id="map_canvas" style="width:100%; height:90%"></div>
+      {% endifequal %}
 	{% endblock %}

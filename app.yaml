@@ -7,6 +7,9 @@ handlers:
 
 - url: /dl
   static_dir: static
+  
+- url: /css
+  static_dir: helper/css
 
 - url: /sample.*
   script: /sample/sample.py

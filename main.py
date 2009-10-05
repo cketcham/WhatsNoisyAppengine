@@ -20,18 +20,17 @@
 
 import wsgiref.handlers
 
-
+from helper.CustomHandler import CustomHandler
 from google.appengine.ext import webapp
+import os
 
-
-class MainHandler(webapp.RequestHandler):
-
+class index(CustomHandler):
   def get(self):
-    self.redirect('/sample')
+    CustomHandler.get(self, os.path.dirname(__file__))
 
 
 def main():
-  application = webapp.WSGIApplication([('/', MainHandler)],
+  application = webapp.WSGIApplication([('/', index)],
                                        debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 

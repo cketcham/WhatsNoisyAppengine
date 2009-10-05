@@ -1,4 +1,5 @@
 from google.appengine.ext import db
+import datetime
 
 class MyModel(db.Model):
   def create(self, params, extra):
@@ -10,7 +11,7 @@ class MyModel(db.Model):
       elif k == "file":
         v = db.Blob(v.file.read())
       elif k == "timestamp":
-        v = float(v)
+        v = datetime.datetime.fromtimestamp(float(v)/1000)
       try:
         setattr(self, k, v)
       except:

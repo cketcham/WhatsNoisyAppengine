@@ -1,34 +1,94 @@
 {% extends "../../view/index.html" %}
 
     {% block title %}Samples{% endblock %}
+    
+    {% block includes %}
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAADcMh_We4l--9Cv4qSAGGThQxwBYIyZ7vSBkCLT9w9k-v5w0vBxR9nfDuwUxl-nvvWdYxW3T9RbwcVw&sensor=false"
+            type="text/javascript"></script>
+    {% endblock %}
+    
+    {% block javascript %}
+    var map;
+    
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById("map_canvas"));
+        map.setUIToDefault();
+        
+        	var encodedPolyline = null;
+        
+        {% for location in traces %}
+        var encodedPolyline = new GPolyline.fromEncoded({
+      		color: "#3333cc",
+      		weight: 10,
+      		points: "{{location.encodedPoints}}",
+      		levels: "{{location.encodedLevels}}",
+      		zoomFactor: {{location.zoomFactor}},
+      		numLevels: {{location.numLevels}}
+    	});
+    	map.addOverlay(encodedPolyline);
+    	{% endfor %}
 
-    {% block css %}
-	.left {float: left; min-width: 300px; }
-	.left li { display:block; margin-left:-40px; padding:5px;  }
-	.cool ul { min-height:100px; background-color:#b0c4de; }
-	.noisy ul { min-height:100px; background-color:#de6d6d; }
-	#right {}
+	var marker = null;
+        
+        {% for location in fun %}
+        var marker = new GMarker(new GLatLng({{location.location}}));
+    	map.addOverlay(marker);
+    	
+    	{% endfor %}
+    	
+    	{% for location in noisy %}
+        var marker = new GMarker(new GLatLng({{location.location}}));
+    	map.addOverlay(marker);
+    	
+    	{% endfor %}
+    	
+	if(marker != null) {
+    		map.setCenter(marker.getLatLng(), 12);
+	} else {
+   		map.setCenter(new GLatLng(34.04037,-118.285217),12);
+	}
+
+
+      }
+    }
+    
+    function movemap(lat,lon) {
+    	map.setCenter(new GLatLng(lat,lon), 14);
+    }
+    
     {% endblock %}
 
+	{% block css %}
+		#funsample { padding:5px; }
+		#funsample:hover { padding:10px; background-color:#F2F9CA; cursor:pointer; }
+		
+		#noisysample { padding:5px; }
+		#noisysample:hover { padding:10px; background-color:#FFECEE; cursor:pointer; }
+	{% endblock %}
+
 	{% block content %}
+	
 		<h2>Your Samples: </h2>
-	<div class="left"> 
-		<div class="cool">
-	     	   Cool:
-	     	   <ul>
-	    		{% for sample in cool %}
-	 			<li>{{sample.title}} <a href="/sample/data/{{sample.key}}">audio</a> </li>
-			{% endfor %}
-		   </ul>
+		<a href="/sample?amount={{amount}}&offset={{prev}}"><- Previous</a> 
+		<a href="/sample?amount={{amount}}&offset={{next}}">Next -></a>
+		<div style="width:250px">
+			<div class="success"> 
+		    	Fun:
+		    	{% for sample in fun %}
+		 			<div id="funsample" onclick="movemap( {{sample.location}} );"> {{sample.title}} <a href="/sample/data/{{sample.key}}">audio</a> </div>
+				{% endfor %}
+
+			</div>
+			<div class="error">
+				Noisy:
+				{% for sample in noisy %}
+		 			<div id="noisysample" onclick="movemap( {{sample.location}} );"> {{sample.title}}  <a href="/sample/data/{{sample.key}}">audio</a> </div>
+				{% endfor %}
+
+			</div>
 		</div>
-		<div class="noisy">
-	     	   Noisy:
-	     	   <ul>
-	    		{% for sample in noisy %}
-	 			<li>{{sample.title}}  <a href="/sample/data/{{sample.key}}">audio</a> </li>
-			{% endfor %}
-		   </ul>
-		</div>
-	</div>
-	<div id="right"> right </div>
+
+	<div style="float:right;">
+<div id="map_canvas" style="position:absolute;left:255px;top:75px;right:0px;bottom:0px;"</div>
 	{% endblock %}

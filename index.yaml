@@ -9,9 +9,21 @@ indexes:
   properties:
   - name: user
   - name: timestamp
+    direction: desc
 
 - kind: LocationTrace
   properties:
+  - name: user
+  - name: timestamp
+
+- kind: Sample
+  properties:
+  - name: type
+  - name: timestamp
+  
+- kind: Sample
+  properties:
+  - name: type
   - name: user
   - name: timestamp
 

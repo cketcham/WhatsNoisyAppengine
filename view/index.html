@@ -8,33 +8,50 @@
     <script type="text/javascript">
 	  {% block javascript %}{% endblock %}
     </script>
+    
+    <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]>
+	  <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
+	<![endif]-->
+    
     <style type="text/css">
 	li { display: inline; }
-	#title { float:left; }
+	ul { float: right; }
  	{% block css %}{% endblock %}
 
     </style>
 
   </head>
   <body onload="initialize()" onunload="GUnload()">
-    <div id="title">
-      WhatsNoisy!</h2>
-    </div>
-    <div align=right id="sidebar" style="font-size:84%;padding:0 0 4px" width=100%>
+    <div id="sidebar">
       {% block sidebar %}
       <ul>
 	<li>{{user.email}}</li>
         <li><a href="/">Home</a> |</li>
         <li><a href="/sample">Samples</a> |</li>
-        <li><a href="/location">Locations</a> |</li>
-	<li><a href="/locationtrace">Location Traces</a> |</li>
+        <li><a href="/locationtrace">Routes</a> |</li>
         <li><a href="{{login_url}}">{{login_text}}</a></li>
       </ul>
       {% endblock %}
     </div>
+    
+    <div id="title">
+      <h2>WhatsNoisy!</h2>
+    </div>
 
     <div id="content">
-      {% block content %}{% endblock %}
+      {% block content %}
+      <b>Welcome to WhatsNoisy!</b><br><br>
+      Use whats noisy to document fun and noisy sounds that you hear around you. Get the application from <a href="/dl/WhatsNoisy.apk">here</a> for android and get started today!<br><br>
+      Here are some starting points:<br>
+      Look at all the samples that have been recorded so far: <a href="/sample">here</a><br>
+      {% ifequal login_text "Sign In" %}
+      	(when you <a href="{{login_url}}">sign in</a> in it will show you the samples you contributed)
+      {% else %}
+      	(since you are signed in, it will show you the samples you contributed)
+      {% endifequal %}
+      {% endblock %}
     </div>
   	
   </body>

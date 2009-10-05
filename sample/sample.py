@@ -19,10 +19,12 @@ import wsgiref.handlers
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from sample.models import Sample
+from locationtrace.models import LocationTrace
 import os
 import logging
 from google.appengine.ext.webapp import template
 from helper.CustomHandler import CustomHandler
+import datetime
 
 class index(CustomHandler):
   def get(self):
@@ -30,17 +32,53 @@ class index(CustomHandler):
       logging.debug(k+","+str(v))
 
     user = users.get_current_user()
+    
+    samples = Sample.all().order("-timestamp")
 
     #display all the samples if the user isn't logged in or is admin
-    if not user or users.is_current_user_admin():
-      cool = Sample.all().filter("type = ", "Cool").fetch(10)
-      noisy = Sample.all().filter("type = ", "Noisy").fetch(10)
+    if user and not users.is_current_user_admin():
+      samples = samples.filter("user = ", user)
+      
+    amount = self.request.get('amount')
+    offset = self.request.get('offset')
+    
+    if not amount:
+      amount = 10
     else:
-      cool = Sample.all().filter("user = ", user).filter("type = ", "Cool").fetch(10)
-      noisy = Sample.all().filter("user = ", user).filter("type = ", "Noisy").fetch(10)
-        
+      amount = int(amount)
+    if not offset:
+      offset = 0
+    else:
+      offset = int(offset)
+      
+    next = offset + amount
+    prev = offset - amount
+    
+    #don't let the user go before the first page
+    if prev <= 0:
+      prev = 0
+      
+    samples = samples.fetch(amount,offset)
 
-    template_values = {'cool':cool, 'noisy':noisy}
+    #don't let the user go past the last page
+    if len(samples)==0:
+      next = offset
+
+    traces = []
+
+    if samples and user and not users.is_current_user_admin():
+      traces = LocationTrace.all().filter("user = ", user).filter("timestamp <= ", samples[0].timestamp).filter("timestamp >= ", samples[-1].timestamp).fetch(1000)
+
+    fun = []
+    noisy = []
+
+    for sample in samples:
+      if sample.type == "Fun":
+        fun.append(sample)
+      else:
+        noisy.append(sample)
+
+    template_values = {'fun':fun, 'noisy':noisy, 'traces':traces, 'next':next, 'prev': prev, 'amount':amount}
     CustomHandler.get(self, os.path.dirname(__file__), template_values)
 
     
@@ -63,7 +101,7 @@ class data(webapp.RequestHandler):
     if not sample:
       return self.error(404)
     
-    self.response.headers['Content-Type'] = 'audio/amr'
+    self.response.headers['Content-Type'] = 'audio/wav'
     self.response.out.write(sample.file)
 
     
